@@ -13,6 +13,11 @@ public class UImenu : MonoBehaviour
         SceneManager.LoadScene(1);
     }
 
+    public void LoadTitleScreen()
+    {
+        SceneManager.LoadScene(0);
+    }
+
     public void QuitGame()
     {
 #if UNITY_EDITOR
