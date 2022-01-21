@@ -1,22 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public abstract class Shape : MonoBehaviour
 {
-    private Color color;
-    private Text text; 
-    private float rotationSpeed;
-    private string m_Name = "Shape";
+    
+    public float m_rotationSpeed = 300;
+    public MeshRenderer Renderer;
+
+    // ENCAPSULATION
+    private string m_Name = "shape";
     public string Name
     {
         get { return m_Name; }
         set
         {
-            if (value.EndsWith("s") || value.EndsWith("x"))
+            if (!(value.Equals("cube") || value.Equals("sphere") || value.Equals("cylinder")))
             {
-                Debug.LogError("The shape name must be singular !");
+                Debug.LogError("The shape must have a shape name !");
             }
             else
             {
@@ -25,30 +26,71 @@ public abstract class Shape : MonoBehaviour
         }
     }
 
-    private void Start()
+    // ENCAPSULATION
+    private Color m_color;
+    public Color color
     {
-        text = GameObject.Find("Text").GetComponent<Text>();
+        get { return m_color; }
+        set
+        {
+            if(value.a != 1)
+            {
+                Debug.LogError("The color must not be transparent !");
+            }
+            else
+            {
+                m_color = value;
+            }
+        }
     }
+
+    bool isColorSet = false;
 
     private void OnMouseOver()
     {
         RotateShape();
+        if (!isColorSet)
+        {
+            SetColor();
+            isColorSet = true;
+        }
+    }
+
+    private void OnMouseExit()
+    {
+        if (isColorSet)
+        {
+            ResetColor();
+            isColorSet = false;
+        }
     }
 
     private void OnMouseDown()
-    {
+    {        
         DisplayText();
+        Debug.Log(m_Name);
     }
 
-    protected virtual void DisplayText()
-    {
-        text.text.Replace(text.text, m_Name);
-    }
 
+    protected abstract void DisplayText();
+
+    // ABSTRACTION
     protected virtual void RotateShape()
     {
-        transform.Rotate(Vector3.right * rotationSpeed * Time.deltaTime);
+        transform.Rotate(Vector3.right * m_rotationSpeed * Time.deltaTime);
     }
 
-    protected abstract void SetColor();
+    // ABSTRACTION
+    private void SetColor()
+    {
+        Renderer.material.color = m_color;
+    }
+
+    // ABSTRACTION
+    private void ResetColor()
+    {
+        Color resetColor = new Color(1, 1, 1);
+        Renderer.material.color = resetColor;
+    }
+
 }
