@@ -6,6 +6,7 @@ public class MainManager : MonoBehaviour
 {
     Shape cube;
     Shape sphere;
+    Shape cylinder;
 
     // Start is called before the first frame update
     void Start()
@@ -17,6 +18,10 @@ public class MainManager : MonoBehaviour
         sphere = GameObject.Find("Sphere").GetComponent<Sphere>();
         sphere.color = Color.green;
         sphere.Name = "sphere";
+
+        cylinder = GameObject.Find("Cylinder").GetComponent<Cylinder>();
+        cylinder.color = Color.blue;
+        cylinder.Name = "cylinder";
     }
 
     
