@@ -12,6 +12,7 @@ public class Cube : Shape
     // POLYMORPHISM
     protected override void DisplayText()
     {
+        text.color = Color.red;
         text.SetText("I am a cube");
     }
 }
